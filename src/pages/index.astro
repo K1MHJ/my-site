@@ -11,6 +11,14 @@ const posts = (await getCollection("blog"))
   .sort((a, b) => +b.data.date - +a.data.date)
   .slice(0, 10);
 
+
+export async function GET() {
+  return new Response(null, {
+    status: 302,
+    headers: { Location: "/1" },
+  });
+}
+
 const { page } = Astro.props;
 ---
 
