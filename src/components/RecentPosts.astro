@@ -1,0 +1,15 @@
+---
+import { getCollection } from "astro:content";
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 5);
+---
+<div class="rounded-2xl border p-4">
+  <h3 class="font-semibold mb-3">최근글</h3>
+  <ul class="space-y-2 text-sm">
+    {posts.map((p) => (
+      <li><a href={`/posts/${p.slug}`} class="hover:underline">{p.data.title}</a></li>
+    ))}
+  </ul>
+</div>

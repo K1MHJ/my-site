@@ -1,0 +1,58 @@
+---
+import "../styles/global.css";
+const { title = "일상의 기록", description = "일상의 기록 입니다." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="min-h-screen bg-white text-gray-900">
+    <header class="border-b">
+      <nav class="mx-auto max-w-5xl px-4 h-14 flex items-center gap-6">
+        <a class="font-bold" href="/">일상의 기록</a>
+        <a href="/tags" class="text-sm">태그</a>
+        <a href="/guestbook" class="text-sm">방명록</a>
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 py-8 grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8">
+      <section>
+        <slot />
+      </section>
+
+      <aside class="space-y-6">
+        <!-- 프로필 -->
+        <div class="rounded-2xl border p-4">
+          <div class="flex items-center gap-3">
+            <img src="/profile.jpg" alt="프로필" class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <div class="font-semibold">일상의 기록</div>
+              <p class="text-sm text-gray-600">일상의 기록 입니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 분류/카테고리(간단 버전: 태그 Top 10로 대체) -->
+        <slot name="sidebar-categories" />
+
+        <!-- 태그 클라우드 -->
+        <slot name="sidebar-tags" />
+
+        <!-- 최근글 -->
+        <slot name="sidebar-recent" />
+
+        <!-- 캘린더/아카이브 영역 -->
+        <slot name="sidebar-archive" />
+      </aside>
+    </main>
+
+    <footer class="border-t py-6 text-center text-sm text-gray-500">
+      © {new Date().getFullYear()} 일상의 기록
+    </footer>
+  </body>
+</html>

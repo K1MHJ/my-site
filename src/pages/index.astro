@@ -1,11 +1,58 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import TagCloud from "../components/TagCloud.astro";
+import RecentPosts from "../components/RecentPosts.astro";
+import ArchiveByMonth from "../components/ArchiveByMonth.astro";
+
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 10);
+
+const { page } = Astro.props;
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="일상의 기록">
+  <div class="space-y-8">
+    {posts.map((post) => (
+      <article class="flex gap-4">
+        {post.data.thumbnail && (
+          <a href={`/posts/${post.slug}`} class="shrink-0">
+            <img src={post.data.thumbnail} alt="" class="w-36 h-24 object-cover rounded-lg border" />
+          </a>
+        )}
+        <div>
+          <h2 class="text-xl font-semibold">
+            <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+          </h2>
+          <div class="text-sm text-gray-600">
+            {post.data.date.toISOString().slice(0,10)}
+            {post.data.tags.length ? ` · ${post.data.tags.join(", ")}` : ""}
+          </div>
+          {post.data.description && <p class="mt-1 text-gray-700">{post.data.description}</p>}
+        </div>
+      </article>
+    ))}
+
+    <!-- 페이지네이션 -->
+    <nav class="flex items-center gap-2">
+      {page.url.prev && <a class="px-3 py-1 border rounded" href={page.url.prev}>이전</a>}
+      <span class="text-sm">페이지 {page.currentPage} / {page.lastPage}</span>
+      {page.url.next && <a class="px-3 py-1 border rounded" href={page.url.next}>다음</a>}
+    </nav>
+  </div>
+
+  <!-- 사이드바 슬롯들 채우기 -->
+  <Fragment slot="sidebar-tags">
+    <!-- 태그 클라우드 간단 버전 -->
+    <TagCloud />
+  </Fragment>
+  <Fragment slot="sidebar-recent">
+    <RecentPosts />
+  </Fragment>
+  <Fragment slot="sidebar-archive">
+    <ArchiveByMonth />
+  </Fragment>
+</BaseLayout>
