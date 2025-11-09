@@ -4,17 +4,24 @@ import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-  return posts.map((p) => ({ params: { slug: p.slug }, props: { post: p } }));
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
 }
 
 const { post } = Astro.props;
-const { title, description, tags, date } = post.data;
+const { Content } = await post.render();
+const { title, date, tags, description } = post.data;
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="prose max-w-none">
+  <article class="prose mx-auto max-w-3xl py-10">
     <h1>{title}</h1>
-    <p class="text-sm text-gray-600">{date.toISOString().slice(0,10)} · {tags.join(", ")}</p>
+    <p class="text-sm text-gray-600">
+      {date.toISOString().slice(0,10)}  
+      {tags?.length ? ` · ${tags.join(", ")}` : ""}
+    </p>
     <Content />
   </article>
-</BaseLayout>
+</BaseLayout> 
