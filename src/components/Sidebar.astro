@@ -35,13 +35,15 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 
 <!-- 프로필 카드 -->
 <div class="card">
-  <div class="profile-header">
-    <img src={`${base}profile.png`} alt="프로필" loading="lazy" />
-    <div>
-      <div class="profile-title">일상의 기록</div>
-      <div class="profile-desc">일상의 기록 입니다.</div>
+  <a href={`${base}about/`} class="profile-link">
+    <div class="profile-header">
+      <img src={`${base}profile.png`} alt="프로필" loading="lazy" />
+      <div>
+        <div class="profile-title">일상의 기록</div>
+        <div class="profile-desc">일상의 기록 입니다.</div>
+      </div>
     </div>
-  </div>
+  </a>
 </div>
 
 <!-- 태그 -->

@@ -259,11 +259,28 @@ main {
 }
 
 /* 프로필 */
+.profile-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.profile-link:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .profile-link:hover {
+  opacity: 0.9;
+}
+
 .profile-header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
+  cursor: pointer;
 }
 .profile-header img {
   width: 48px;

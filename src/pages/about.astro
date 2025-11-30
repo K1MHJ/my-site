@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+---
+
+<BaseLayout title="소개">
+  <article>
+    <header>
+      <h1 class="post-title">안녕하세요! 👋</h1>
+    </header>
+
+    <section style="margin-top: 1rem;">
+      <p>일상의 기록을 남기는 블로그에 오신 것을 환영합니다.</p>
+
+      <h2>저에 대해</h2>
+      <p>이 블로그는 제 일상, 생각, 그리고 배운 것들을 기록하는 공간입니다.</p>
+
+      <h3>관심사</h3>
+      <ul>
+        <li><strong>개발</strong>: 웹 개발과 프로그래밍에 관심이 많습니다</li>
+        <li><strong>기술</strong>: 새로운 기술을 배우고 적용하는 것을 좋아합니다</li>
+        <li><strong>일상</strong>: 일상의 소소한 이야기들을 기록합니다</li>
+      </ul>
+
+      <h3>기술 스택</h3>
+      <p>주로 사용하는 기술들:</p>
+      <ul>
+        <li><strong>프론트엔드</strong>: HTML, CSS, JavaScript, TypeScript</li>
+        <li><strong>프레임워크</strong>: Astro, React</li>
+        <li><strong>기타</strong>: Git, Markdown</li>
+      </ul>
+
+      <h2>블로그에 대해</h2>
+      <p>이 블로그는 <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>로 만들어졌으며, 마크다운 형식으로 글을 작성하고 있습니다.</p>
+
+      <h3>블로그의 목적</h3>
+      <ul>
+        <li>일상의 기록을 남기기</li>
+        <li>배운 것들을 정리하고 공유하기</li>
+        <li>생각과 경험을 기록하기</li>
+      </ul>
+
+      <h2>연락처</h2>
+      <p>궁금한 점이나 피드백이 있으시면 언제든지 연락해주세요!</p>
+
+      <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e5e7eb;" />
+
+      <p style="color: #6b7280; font-size: 0.9rem;"><em>마지막 업데이트: 2025년</em></p>
+    </section>
+  </article>
+
+  <Sidebar slot="sidebar" />
+</BaseLayout>
+
