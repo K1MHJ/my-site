@@ -1,24 +1,64 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+import Sidebar from "../../components/Sidebar.astro";
+import { getAllPosts } from "../../lib/posts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  const tags = new Set<string>();
-  posts.forEach((p) => p.data.tags.forEach((t) => tags.add(t)));
-  return [...tags].map((t) => ({ params: { tag: t } }));
+  const posts = getAllPosts();
+  const tagSet = new Set<string>();
+
+  for (const p of posts) {
+    if (!p.tags) continue;
+    for (const t of p.tags) {
+      tagSet.add(t);
+    }
+  }
+
+  return Array.from(tagSet).map((tag) => ({
+    params: { tag },   // /tags/태그/ 라우트
+    props: { tag },
+  }));
 }
 
-const { tag } = Astro.params;
-const posts = (await getCollection("blog"))
-  .filter((p) => p.data.tags.includes(tag))
-  .sort((a, b) => +b.data.date - +a.data.date);
+type Props = { tag: string };
+const { tag } = Astro.props as Props;
+
+const allPosts = getAllPosts();
+const taggedPosts = allPosts.filter((p) => p.tags?.includes(tag));
+
+const rawBase = import.meta.env.BASE_URL ?? "/";
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
-<BaseLayout title={`#${tag}`}>
-  <ul class="space-y-4">
-    {posts.map((p) => (
-      <li><a href={`/posts/${p.slug}`} class="font-medium">{p.data.title}</a></li>
-    ))}
-  </ul>
+<BaseLayout title={`태그: ${tag}`}>
+  <section>
+    <h1 class="post-title">#{tag} 태그의 글</h1>
+
+    {taggedPosts.length === 0 ? (
+      <p>이 태그로 작성된 글이 없습니다.</p>
+    ) : (
+      <ul class="post-list">
+        {taggedPosts.map((post) => (
+          <li class="post-list-item">
+            <h2 class="post-title">
+              <a href={`${base}posts/${post.slug}/`}>{post.title}</a>
+            </h2>
+            <div class="post-meta">
+              {new Date(post.createdAt).toLocaleDateString("ko-KR")} ·{" "}
+              {post.tags?.join(", ")}
+            </div>
+            {post.summary && (
+              <p class="post-summary">{post.summary}</p>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <p style="margin-top: 1rem;">
+      <a href={`${base}tags/`}>← 태그 목록으로</a>
+    </p>
+  </section>
+
+  <Sidebar slot="sidebar" />
 </BaseLayout>

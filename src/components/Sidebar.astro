@@ -1,0 +1,92 @@
+---
+import { getAllPosts } from "../lib/posts";
+
+const posts = getAllPosts();
+const latest = posts.slice(0, 5);
+
+const tagMap = new Map<string, number>();
+for (const p of posts) {
+  if (!p.tags) continue;
+  for (const t of p.tags) {
+    tagMap.set(t, (tagMap.get(t) ?? 0) + 1);
+  }
+}
+const tags = [...tagMap.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 30);
+
+type MonthItem = { title: string; slug: string };
+const byMonth = new Map<string, MonthItem[]>();
+for (const p of posts) {
+  const d = new Date(p.createdAt);
+  if (Number.isNaN(d.getTime())) continue;
+  const key = d.toISOString().slice(0, 7); // YYYY-MM
+  const list = byMonth.get(key) ?? [];
+  list.push({ title: p.title, slug: p.slug });
+  byMonth.set(key, list);
+}
+const months = [...byMonth.entries()].sort((a, b) =>
+  a[0] < b[0] ? 1 : -1
+);
+
+const rawBase = import.meta.env.BASE_URL ?? "/";
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+---
+
+<!-- 프로필 카드 -->
+<div class="card">
+  <div class="profile-header">
+    <img src={`${base}profile.png`} alt="프로필" loading="lazy" />
+    <div>
+      <div class="profile-title">일상의 기록</div>
+      <div class="profile-desc">일상의 기록 입니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 태그 -->
+<div class="card">
+  <h3>태그</h3>
+  <div class="tag-list">
+    {tags.map(([t, n]) => (
+      <a href={`${base}tags/${t}/`} class="tag-pill">
+        #{t} ({n})
+      </a>
+    ))}
+  </div>
+</div>
+
+<!-- 최근 글 -->
+<div class="card">
+  <h3>최근글</h3>
+  <ul class="post-list">
+    {latest.map((p) => (
+      <li class="post-list-item" style="margin-bottom: 0.3rem;">
+        <a href={`${base}posts/${p.slug}/`}>{p.title}</a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<!-- Archives -->
+<div class="card">
+  <h3>Archives</h3>
+  <div>
+    {months.map(([m, list]) => (
+      <div class="archive-month">
+        <details>
+          <summary>
+            {m} ({list.length})
+          </summary>
+          <ul>
+            {list.map((i) => (
+              <li>
+                <a href={`${base}posts/${i.slug}/`}>{i.title}</a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </div>
+    ))}
+  </div>
+</div>

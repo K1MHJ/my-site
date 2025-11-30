@@ -1,58 +1,48 @@
 ---
 import "../styles/global.css";
-const { title = "일상의 기록", description = "일상의 기록 입니다." } = Astro.props;
+
+export interface Props {
+  title?: string;
+}
+
+const { title = "일상의 기록" } = Astro.props;
+
+const rawBase = import.meta.env.BASE_URL ?? "/";
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
 ---
 
-<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-  <body class="min-h-screen bg-white text-gray-900">
-    <header class="border-b">
-      <nav class="mx-auto max-w-5xl px-4 h-14 flex items-center gap-6">
-        <a class="font-bold" href="/">일상의 기록</a>
-        <a href="/tags" class="text-sm">태그</a>
-        <a href="/guestbook" class="text-sm">방명록</a>
-      </nav>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a href={base} class="site-title">일상의 기록</a>
+        <nav class="nav">
+          <a href={base}>홈</a>
+          <a href={`${base}tags/`}>태그</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="mx-auto max-w-5xl px-4 py-8 grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8">
-      <section>
-        <slot />
-      </section>
-
-      <aside class="space-y-6">
-        <!-- 프로필 -->
-        <div class="rounded-2xl border p-4">
-          <div class="flex items-center gap-3">
-            <img src="./profile.jpg" alt="프로필" class="w-12 h-12 rounded-full object-cover" />
-            <div>
-              <div class="font-semibold">일상의 기록</div>
-              <p class="text-sm text-gray-600">일상의 기록 입니다.</p>
-            </div>
-          </div>
+    <main>
+      <div class="container layout">
+        <div class="content">
+          <slot />
         </div>
-
-        <!-- 분류/카테고리(간단 버전: 태그 Top 10로 대체) -->
-        <slot name="sidebar-categories" />
-
-        <!-- 태그 클라우드 -->
-        <slot name="sidebar-tags" />
-
-        <!-- 최근글 -->
-        <slot name="sidebar-recent" />
-
-        <!-- 캘린더/아카이브 영역 -->
-        <slot name="sidebar-archive" />
-      </aside>
+        <aside class="sidebar">
+          <slot name="sidebar" />
+        </aside>
+      </div>
     </main>
 
-    <footer class="border-t py-6 text-center text-sm text-gray-500">
-      © {new Date().getFullYear()} 일상의 기록
+    <footer class="site-footer">
+      <div class="container">
+        © {new Date().getFullYear()} 일상의 기록
+      </div>
     </footer>
   </body>
 </html>

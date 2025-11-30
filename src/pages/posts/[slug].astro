@@ -1,16 +1,13 @@
 ---
-// src/pages/posts/[slug].astro
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllPosts, getPostBySlug } from '../../lib/posts';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import { getAllPosts, getPostBySlug } from "../../lib/posts";
 
 export async function getStaticPaths() {
   const posts = getAllPosts();
-
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: {
-      slug: post.slug,
-    },
+    props: { slug: post.slug },
   }));
 }
 
@@ -22,49 +19,30 @@ if (!post) {
 }
 
 const { frontmatter, Content } = post;
-const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <main>
-    <article>
-      <header>
-        <h1>{frontmatter.title}</h1>
-
-        {frontmatter.createdAt && (
-          <p>
-            <time datetime={frontmatter.createdAt}>
-              {new Date(frontmatter.createdAt).toLocaleString('ko-KR')}
-            </time>
-          </p>
-        )}
-
-        {frontmatter.tags && frontmatter.tags.length > 0 && (
-          <p>
-            {frontmatter.tags.map((tag) => (
-              <span style="margin-right: 0.5rem;">#{tag}</span>
-            ))}
-          </p>
-        )}
-
-        {frontmatter.heroImage && (
-          <p>
-            {/* heroImage는 글 폴더 기준 상대 경로라, BASE_URL은 붙이지 않는다 */}
-            <img src={frontmatter.heroImage} alt={frontmatter.title} />
-          </p>
-        )}
-      </header>
-
-      <section>
-        {/* Markdown 본문 */}
-        <Content />
-      </section>
-
-      <footer>
-        <p>
-          <a href={`${base}`}>← 홈으로 돌아가기</a>
+  <article>
+    <header>
+      <h1 class="post-title">{frontmatter.title}</h1>
+      {frontmatter.createdAt && (
+        <div class="post-meta">
+          {new Date(frontmatter.createdAt).toLocaleString("ko-KR")}
+        </div>
+      )}
+      {frontmatter.tags && frontmatter.tags.length > 0 && (
+        <p class="post-meta">
+          {frontmatter.tags.map((tag) => (
+            <span style="margin-right: 0.5rem;">#{tag}</span>
+          ))}
         </p>
-      </footer>
-    </article>
-  </main>
+      )}
+    </header>
+
+    <section style="margin-top: 1rem;">
+      <Content />
+    </section>
+  </article>
+
+  <Sidebar slot="sidebar" />
 </BaseLayout>
