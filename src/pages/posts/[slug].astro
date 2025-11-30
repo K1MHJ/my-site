@@ -1,27 +1,70 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+// src/pages/posts/[slug].astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllPosts, getPostBySlug } from '../../lib/posts';
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = getAllPosts();
+
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: { post },
+    props: {
+      slug: post.slug,
+    },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
-const { title, date, tags, description } = post.data;
+const { slug } = Astro.params;
+const post = getPostBySlug(slug);
+
+if (!post) {
+  throw new Error(`Post not found: ${slug}`);
+}
+
+const { frontmatter, Content } = post;
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={title} description={description}>
-  <article class="prose mx-auto max-w-3xl py-10">
-    <h1>{title}</h1>
-    <p class="text-sm text-gray-600">
-      {date.toISOString().slice(0,10)}  
-      {tags?.length ? ` · ${tags.join(", ")}` : ""}
-    </p>
-    <Content />
-  </article>
-</BaseLayout> 
+<BaseLayout title={frontmatter.title}>
+  <main>
+    <article>
+      <header>
+        <h1>{frontmatter.title}</h1>
+
+        {frontmatter.createdAt && (
+          <p>
+            <time datetime={frontmatter.createdAt}>
+              {new Date(frontmatter.createdAt).toLocaleString('ko-KR')}
+            </time>
+          </p>
+        )}
+
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <p>
+            {frontmatter.tags.map((tag) => (
+              <span style="margin-right: 0.5rem;">#{tag}</span>
+            ))}
+          </p>
+        )}
+
+        {frontmatter.heroImage && (
+          <p>
+            {/* heroImage는 글 폴더 기준 상대 경로라, BASE_URL은 붙이지 않는다 */}
+            <img src={frontmatter.heroImage} alt={frontmatter.title} />
+          </p>
+        )}
+      </header>
+
+      <section>
+        {/* Markdown 본문 */}
+        <Content />
+      </section>
+
+      <footer>
+        <p>
+          <a href={`${base}`}>← 홈으로 돌아가기</a>
+        </p>
+      </footer>
+    </article>
+  </main>
+</BaseLayout>

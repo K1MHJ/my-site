@@ -1,0 +1,17 @@
+
+이제부터는 **글 추가 = 이 구조로 폴더 하나 새로 만들고 `index.ko.md` 작성**이면 끝이야.
+
+---
+
+## 1. `astro.config.mjs`에서 base 설정 확인
+
+GitHub Pages에서 `/my-site/` 아래에 올라가니까,  
+`astro.config.mjs`는 대략 이렇게 되어 있는 게 좋아:
+
+```js
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  site: 'https://k1mhj.github.io',
+  base: '/my-site',
+});
