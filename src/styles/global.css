@@ -122,6 +122,25 @@ main {
 
 .content {
   min-width: 0;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+/* 마크다운 콘텐츠 내 이미지 스타일 */
+article img,
+section img,
+.content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+}
+
+/* 이미지가 링크로 감싸진 경우 */
+article a > img,
+section a > img,
+.content a > img {
+  display: block;
 }
 
 .sidebar {
