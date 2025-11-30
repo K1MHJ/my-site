@@ -1,0 +1,83 @@
+---
+---
+
+<button id="theme-toggle" class="theme-toggle" aria-label="테마 전환">
+  <span class="theme-toggle-icon">🌙</span>
+</button>
+
+<script is:inline>
+  (function() {
+    // 초기 테마 설정 (localStorage 또는 시스템 설정)
+    const getTheme = () => {
+      const saved = localStorage.getItem('theme');
+      if (saved) return saved;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+
+    const setTheme = (theme) => {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      
+      const icon = document.querySelector('.theme-toggle-icon');
+      if (icon) {
+        icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+    };
+
+    // 초기 테마 적용
+    const initialTheme = getTheme();
+    setTheme(initialTheme);
+
+    // 토글 버튼 클릭 이벤트
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const newTheme = current === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+      });
+    }
+
+    // 시스템 테마 변경 감지 (localStorage에 저장된 값이 없을 때만)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  })();
+</script>
+
+<style>
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-toggle:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  [data-theme="dark"] .theme-toggle {
+    border-color: #374151;
+  }
+
+  [data-theme="dark"] .theme-toggle:hover {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  .theme-toggle-icon {
+    display: block;
+  }
+</style>
+

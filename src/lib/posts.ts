@@ -29,10 +29,18 @@ const postModules = import.meta.glob<MarkdownInstance<PostFrontmatter>>(
 
 export function getAllPosts(): Post[] {
   const posts: Post[] = [];
+  const seenSlugs = new Set<string>();
 
   for (const mod of Object.values(postModules)) {
     const fm = mod.frontmatter;
     if (fm.draft) continue;
+
+    // 중복 slug 체크
+    if (seenSlugs.has(fm.slug)) {
+      console.warn(`중복된 slug 발견: ${fm.slug}. 이 글은 건너뜁니다.`);
+      continue;
+    }
+    seenSlugs.add(fm.slug);
 
     posts.push({
       ...fm,

@@ -1,9 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sidebar from "../components/Sidebar.astro";
+import Pagination from "../components/Pagination.astro";
 import { getAllPosts } from "../lib/posts";
+import { POSTS_PER_PAGE } from "../lib/constants";
 
-const posts = getAllPosts();
+const allPosts = getAllPosts();
+const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+const currentPage = 1;
+
+// 첫 페이지의 글들
+const startIndex = 0;
+const endIndex = POSTS_PER_PAGE;
+const posts = allPosts.slice(startIndex, endIndex);
 
 const rawBase = import.meta.env.BASE_URL ?? "/";
 const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
@@ -14,22 +23,40 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
     {posts.length === 0 ? (
       <p>아직 작성된 글이 없습니다.</p>
     ) : (
-      <ul class="post-list">
-        {posts.map((post) => (
-          <li class="post-list-item">
-            <h2 class="post-title">
-              <a href={`${base}posts/${post.slug}/`}>{post.title}</a>
-            </h2>
-            <div class="post-meta">
-              {new Date(post.createdAt).toLocaleDateString("ko-KR")} ·{" "}
-              {post.tags?.join(", ")}
-            </div>
-            {post.summary && (
-              <p class="post-summary">{post.summary}</p>
-            )}
-          </li>
-        ))}
-      </ul>
+      <>
+        {totalPages > 1 && (
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            base={base}
+          />
+        )}
+        
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li class="post-list-item">
+              <h2 class="post-title">
+                <a href={`${base}posts/${post.slug}/`}>{post.title}</a>
+              </h2>
+              <div class="post-meta">
+                {new Date(post.createdAt).toLocaleDateString("ko-KR")} ·{" "}
+                {post.tags?.join(", ")}
+              </div>
+              {post.summary && (
+                <p class="post-summary">{post.summary}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+        
+        {totalPages > 1 && (
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            base={base}
+          />
+        )}
+      </>
     )}
   </section>
 

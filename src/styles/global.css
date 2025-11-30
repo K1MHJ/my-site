@@ -13,14 +13,29 @@ body {
   margin: 0;
   background: #f3f4f6;
   color: #111827;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 다크 모드 */
+[data-theme="dark"] body {
+  background: #111827;
+  color: #f9fafb;
 }
 
 a {
   color: #2563eb;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 a:hover {
   text-decoration: underline;
+}
+
+[data-theme="dark"] a {
+  color: #60a5fa;
+}
+[data-theme="dark"] a:hover {
+  color: #93c5fd;
 }
 
 main {
@@ -42,6 +57,12 @@ main {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .site-header {
+  background: rgba(17, 24, 39, 0.9);
+  border-bottom-color: #374151;
 }
 
 .site-header-inner {
@@ -57,6 +78,11 @@ main {
   font-weight: 700;
   font-size: 1.1rem;
   color: #111827;
+  transition: color 0.2s ease;
+}
+
+[data-theme="dark"] .site-title {
+  color: #f9fafb;
 }
 
 .nav {
@@ -65,11 +91,25 @@ main {
   font-size: 0.95rem;
 }
 
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .nav a {
   color: #4b5563;
+  transition: color 0.2s ease;
 }
 .nav a:hover {
   color: #111827;
+}
+
+[data-theme="dark"] .nav a {
+  color: #9ca3af;
+}
+[data-theme="dark"] .nav a:hover {
+  color: #f9fafb;
 }
 
 /* 메인 레이아웃: 본문 + 사이드바 */
@@ -86,6 +126,44 @@ main {
 
 .sidebar {
   min-width: 0;
+  position: sticky;
+  top: calc(3.5rem + 1.5rem); /* 헤더 높이 + margin-top */
+  align-self: start;
+  max-height: calc(100vh - 3.5rem - 1.5rem - 2rem); /* 헤더 높이 + margin-top + 여유 공간 */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+/* 사이드바 스크롤바 스타일 (Webkit 브라우저) */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+[data-theme="dark"] .sidebar {
+  scrollbar-color: #4b5563 transparent;
+}
+
+[data-theme="dark"] .sidebar::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+[data-theme="dark"] .sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
 }
 
 /* 카드 스타일 (사이드바 박스들) */
@@ -95,6 +173,12 @@ main {
   border-radius: 0.75rem;
   padding: 1rem;
   margin-bottom: 1rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .card {
+  background: #1f2937;
+  border-color: #374151;
 }
 
 .card h3 {
@@ -121,11 +205,22 @@ main {
   font-size: 0.85rem;
   color: #6b7280;
   margin-bottom: 0.25rem;
+  transition: color 0.2s ease;
 }
+
+[data-theme="dark"] .post-meta {
+  color: #9ca3af;
+}
+
 .post-summary {
   margin: 0;
   font-size: 0.95rem;
   color: #374151;
+  transition: color 0.2s ease;
+}
+
+[data-theme="dark"] .post-summary {
+  color: #d1d5db;
 }
 
 /* 태그 */
@@ -140,6 +235,13 @@ main {
   border-radius: 999px;
   border: 1px solid #e5e7eb;
   background: #f9fafb;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+[data-theme="dark"] .tag-pill {
+  border-color: #4b5563;
+  background: #374151;
+  color: #e5e7eb;
 }
 
 /* 아카이브 */
@@ -169,13 +271,30 @@ main {
   border-radius: 999px;
   object-fit: cover;
   border: 1px solid #e5e7eb;
+  transition: border-color 0.2s ease;
 }
+
+[data-theme="dark"] .profile-header img {
+  border-color: #4b5563;
+}
+
 .profile-title {
   font-weight: 600;
+  transition: color 0.2s ease;
 }
+
+[data-theme="dark"] .profile-title {
+  color: #f9fafb;
+}
+
 .profile-desc {
   font-size: 0.9rem;
   color: #4b5563;
+  transition: color 0.2s ease;
+}
+
+[data-theme="dark"] .profile-desc {
+  color: #9ca3af;
 }
 
 /* 푸터 */
@@ -185,6 +304,12 @@ main {
   color: #6b7280;
   padding: 1rem 0 2rem;
   margin-top: 2rem;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] .site-footer {
+  border-top-color: #374151;
+  color: #9ca3af;
 }
 
 /* 반응형 */
@@ -196,5 +321,10 @@ main {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
   }
 }

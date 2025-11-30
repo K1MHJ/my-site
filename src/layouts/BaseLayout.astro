@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 export interface Props {
   title?: string;
@@ -24,6 +25,7 @@ const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
         <nav class="nav">
           <a href={base}>홈</a>
           <a href={`${base}tags/`}>태그</a>
+          <ThemeToggle />
         </nav>
       </div>
     </header>

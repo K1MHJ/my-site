@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import Pagination from "../../components/Pagination.astro";
+import { getAllPosts } from "../../lib/posts";
+import { POSTS_PER_PAGE } from "../../lib/constants";
+
+export async function getStaticPaths() {
+  const allPosts = getAllPosts();
+  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+  
+  const paths: Array<{ params: { page: string }; props: { currentPage: number } }> = [];
+  
+  // 2페이지부터 마지막 페이지까지
+  for (let page = 2; page <= totalPages; page++) {
+    paths.push({
+      params: { page: page.toString() },
+      props: { currentPage: page },
+    });
+  }
+  
+  return paths;
+}
+
+type Props = {
+  currentPage: number;
+};
+
+const { currentPage } = Astro.props;
+const allPosts = getAllPosts();
+const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+
+// 현재 페이지의 글들
+const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+const endIndex = startIndex + POSTS_PER_PAGE;
+const posts = allPosts.slice(startIndex, endIndex);
+
+const rawBase = import.meta.env.BASE_URL ?? "/";
+const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
+---
+
+<BaseLayout title={`일상의 기록 - 페이지 ${currentPage}`}>
+  <section>
+    {posts.length === 0 ? (
+      <p>이 페이지에는 글이 없습니다.</p>
+    ) : (
+      <>
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          base={base}
+        />
+        
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li class="post-list-item">
+              <h2 class="post-title">
+                <a href={`${base}posts/${post.slug}/`}>{post.title}</a>
+              </h2>
+              <div class="post-meta">
+                {new Date(post.createdAt).toLocaleDateString("ko-KR")} ·{" "}
+                {post.tags?.join(", ")}
+              </div>
+              {post.summary && (
+                <p class="post-summary">{post.summary}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+        
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          base={base}
+        />
+      </>
+    )}
+  </section>
+
+  <Sidebar slot="sidebar" />
+</BaseLayout>
+
