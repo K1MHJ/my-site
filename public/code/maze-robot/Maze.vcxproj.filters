@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{72f11478-9caf-4d18-a412-4a205b3faa98}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Maze.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeDoc.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeView.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeTypes.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeMap.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeAgent.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeViewport.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageBuffer.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalMap.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeImageProcessor.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeSensor.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualMazeSensor.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Maze.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeDoc.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeMap.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeAgent.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeViewport.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageBuffer.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalMap.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeImageProcessor.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualMazeSensor.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Maze.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Maze.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\MazeDoc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Maze.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
