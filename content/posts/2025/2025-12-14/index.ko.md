@@ -12,7 +12,3 @@ heroImage: ""
 draft: false
 ---
 ### 샘플 코드
-
-- [fa.app](code/cross/fa.cpp)
-- [fb.app](code/cross/fb.cpp)
-- [fb.h](code/cross/fb.h)
